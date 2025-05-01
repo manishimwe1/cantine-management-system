@@ -29,7 +29,7 @@ const Sidebar = () => {
   return (
     <aside
       className={`fixed top-0 left-0 h-full bg-indigo-950 text-white transition-all duration-300 z-10 ${
-        sidebarOpen ? 'w-64' : 'w-20'
+        sidebarOpen ? 'w-56' : 'w-20'
       }`}
     >
       <div className="h-16 flex items-center justify-center border-b border-indigo-700">
