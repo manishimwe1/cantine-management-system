@@ -10,4 +10,20 @@ export default defineSchema({
   category: defineTable({
     category: v.string(),
   }),
+  supplier: defineTable({
+    supplierName: v.string(),
+    companyName: v.string(),
+    phone: v.number(),
+    itemSuplied:v.string(),
+
+  }),
+  purchaseItem: defineTable({
+    category: v.id('category'),
+    itemName: v.string(),
+    supplierName: v.id('supplier'),
+    quantity: v.number(),
+    unity: v.string(),
+    
+
+  }),
 });

@@ -7,13 +7,26 @@ export const addItemSchema = z.object({
   category: z.string().min(2, {
     message: "category must be at least 2 characters.",
   }),
-  quantity: z.number().min(1, {
+  quantity: z.coerce.number().min(1, {
     message: "quantity must be at least 1.",
   }),
   unity: z.string().min(2, {
     message: "category must be at least 2 characters.",
   }),
-//   status: z.enum(["In Stock", "Out of Stock", "Low Stock"], {
-//     required_error: "Please select a status",
-//   }),
+  suplier: z.string().min(2, {
+    message: "category must be at least 2 characters.",
+  }),
+
 });
+
+export const addSupplierSchema = z.object({
+    supplierName: z.string().min(2).max(50),
+    companyName: z.string().min(2).max(50),
+    phone: z.coerce.number().min(3),
+    itemSuplied: z.string().min(2).max(50),
+  });
+
+  
+
+
+

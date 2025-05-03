@@ -3,6 +3,68 @@ import { query, mutation, action } from "./_generated/server";
 import { api } from "./_generated/api";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
+
+
+
+export const purchaseItem = query({
+
+  handler: async (ctx) => {
+    
+    const supplier = await ctx.db
+      .query("purchaseItem")
+      .order("desc")
+    
+    return supplier.collect()
+    
+  },
+});
+
+export const addPurchaseItemInDB = mutation({
+  args: {
+    category: v.id('category'),
+    itemName: v.string(),
+    suplierName: v.id('supplier'),
+    quantity: v.number(),
+    unity: v.string(),
+  },
+
+  handler: async (ctx, args) => {
+    
+    const id = await ctx.db.insert("purchaseItem", { category: args.category,itemName:args.itemName,quantity:args.quantity,supplierName:args.suplierName,unity:args.unity });
+
+    console.log("Added new document with id:", id);
+  },
+});
+export const listSuppliers = query({
+
+  handler: async (ctx) => {
+    
+    const supplier = await ctx.db
+      .query("supplier")
+      .order("desc")
+    
+    return supplier.collect()
+    
+  },
+});
+
+export const addSupplier = mutation({
+  args: {
+    supplierName: v.string(),
+    companyName: v.string(),
+    phone: v.number(),
+    itemSuplied: v.string(),
+  },
+
+  handler: async (ctx, args) => {
+    
+    const id = await ctx.db.insert("supplier", { supplierName: args.supplierName,companyName:args.companyName,phone:args.phone,itemSuplied:args.itemSuplied });
+
+    console.log("Added new document with id:", id);
+  },
+});
+
+
 export const listCategories = query({
 
   handler: async (ctx) => {

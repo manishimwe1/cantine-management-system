@@ -16,21 +16,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { addItemSchema } from "@/lib/validation";
 import SelectCategory from "./SelectCategory";
+import { use } from "react";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 export function SuppliersForm() {
-    
   // 1. Define your form.
   const form = useForm<z.infer<typeof addItemSchema>>({
     resolver: zodResolver(addItemSchema),
     defaultValues: {
       itemName: "",
+      category: "",
+      quantity: 0,
+      suplier: "",
+      unity: "",
     },
   });
+  const addPurchaseItemInDB = useMutation(api.myFunctions.addPurchaseItemInDB);
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof addItemSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmit(values: z.infer<typeof addItemSchema>) {
+    
+    await addPurchaseItemInDB({
+      category: values.category as Id<'category'>,
+      itemName: values.itemName,
+      suplierName: values.suplier  as Id<'supplier'>,
+      quantity: values.quantity,
+      unity: values.unity,
+    });
+    form.reset();
     console.log(values);
   }
 
@@ -60,7 +75,14 @@ export function SuppliersForm() {
               <FormItem>
                 <FormLabel>Category</FormLabel>
                 <FormControl>
-                  <SelectCategory className={"w-[180px]"} addBtnText="Add Category" />
+                  <SelectCategory
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    className={"w-[180px]"}
+                    addBtnText="Add Category"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -95,7 +117,13 @@ export function SuppliersForm() {
               <FormItem className="w-full ">
                 <FormLabel>Unity</FormLabel>
                 <FormControl>
-                  <SelectCategory  />
+                  <SelectCategory
+                  addBtnText="Add Unity"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -105,12 +133,18 @@ export function SuppliersForm() {
         <div>
           <FormField
             control={form.control}
-            name="unity"
+            name="suplier"
             render={({ field }) => (
               <FormItem className="w-full ">
                 <FormLabel>Select Supplier</FormLabel>
                 <FormControl>
-                  <SelectCategory addBtnText="Add Supplier"/>
+                  <SelectCategory
+                    addBtnText="Add Supplier"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
