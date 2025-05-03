@@ -15,8 +15,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { addItemSchema } from "@/lib/validation";
+import SelectCategory from "./SelectCategory";
 
 export function SuppliersForm() {
+    
   // 1. Define your form.
   const form = useForm<z.infer<typeof addItemSchema>>({
     resolver: zodResolver(addItemSchema),
@@ -34,20 +36,18 @@ export function SuppliersForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
         <div className="flex gap-4">
           <FormField
             control={form.control}
             name="itemName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full ">
                 <FormLabel>Item Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Shyiramo ikirangurwa" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -58,13 +58,60 @@ export function SuppliersForm() {
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Item Name</FormLabel>
+                <FormLabel>Category</FormLabel>
                 <FormControl>
-                  <Input placeholder="Shyiramo ikirangurwa" {...field} />
+                  <SelectCategory className={"w-[180px]"} addBtnText="Add Category" />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex gap-4 w-full ">
+          <FormField
+            control={form.control}
+            name="quantity"
+            render={({ field }) => (
+              <FormItem className="w-full ">
+                <FormLabel>Quantity</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Shyiramo ikirangurwa"
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="unity"
+            render={({ field }) => (
+              <FormItem className="w-full ">
+                <FormLabel>Unity</FormLabel>
+                <FormControl>
+                  <SelectCategory  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div>
+          <FormField
+            control={form.control}
+            name="unity"
+            render={({ field }) => (
+              <FormItem className="w-full ">
+                <FormLabel>Select Supplier</FormLabel>
+                <FormControl>
+                  <SelectCategory addBtnText="Add Supplier"/>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
