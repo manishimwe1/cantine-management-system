@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import StatisticCard from '@/components/StatisticCard';
 import DataTable from '@/components/DataTable';
+import AddISupplies from '@/components/AddISupplies';
 
 // Sample inventory data
 const inventoryData = [
@@ -87,10 +88,8 @@ const InventoryManagement = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0">Inventory Management</h1>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 bg-indigo-600 text-white rounded-md flex items-center hover:bg-indigo-700 transition-colors">
-            <Plus size={18} className="mr-2" />
-            Add New Item
-          </button>
+          
+          <AddISupplies />
           <button className="px-4 py-2 border border-gray-300 rounded-md flex items-center text-gray-700 hover:bg-gray-50 transition-colors">
             <Filter size={18} className="mr-2" />
             Filter
