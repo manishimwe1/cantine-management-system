@@ -55,7 +55,7 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className=" py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -68,12 +68,13 @@ export function DataTable<TData, TValue>({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody className="bg-white divide-y divide-gray-200">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="hover:bg-indigo-50 py-1 cursor-pointer"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -91,6 +92,19 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <div className="px-4 py-3 border-t border-gray-200 bg-gray-50 sm:px-6 flex justify-between items-center">
+        <div className="text-sm text-gray-500">
+          Showing <span className="font-medium">{data.length}</span> results
+        </div>
+        <div className="flex space-x-2">
+          <button className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+            Previous
+          </button>
+          <button className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

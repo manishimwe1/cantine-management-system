@@ -1,13 +1,14 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Plus, 
   Filter, 
   Download, 
   Trash2, 
   Edit,
-  PackageOpen
+  PackageOpen,
+  Loader2
 } from 'lucide-react';
 import StatisticCard from '@/components/StatisticCard';
 import AddISupplies from '@/components/AddISupplies';
@@ -16,6 +17,7 @@ import { api } from '@/convex/_generated/api';
 import { columns } from './columns';
 // import DataTable from '@/components/DataTable';
 import { DataTable } from './data-table';
+import { usePurchaseItemStore } from '@/lib/store';
 
 // Sample inventory data
 
@@ -39,6 +41,13 @@ const supplierData = [
 const InventoryManagement = () => {
   const [activeTab, setActiveTab] = useState('items');
   const purchaseItem = useQuery(api.myFunctions.purchaseItem);
+  const {setPurchaseItems,purchaseItems} = usePurchaseItemStore()
+
+  useEffect(() => {
+    if (purchaseItem) {
+      setPurchaseItems(purchaseItem);
+    }
+  },[purchaseItem])
   const inventoryColumns = [
     { header: 'Item Name', accessor: 'name' },
     { header: 'Category', accessor: 'category' },
@@ -109,7 +118,7 @@ const InventoryManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <StatisticCard
           title="Total Items"
-          value={inventoryData.length}
+          value={purchaseItems?.length}
           subtitle="Across all categories"
           className="bg-gradient-to-br from-indigo-50 to-white"
         />
@@ -165,14 +174,13 @@ const InventoryManagement = () => {
 
         <div className="p-6">
           {activeTab === 'items' && (
-            purchaseItem && (
-              <DataTable columns={columns} data={purchaseItem} />
-            //   <DataTable
-            //   columns={inventoryColumns}
-            //   data={purchaseItem}
-            //   title="Inventory Items"
-            //   searchPlaceholder="Search items..."
-            // />
+            purchaseItems ? (
+              <DataTable columns={columns} data={purchaseItems} />
+           
+            ):(
+              <div className='p-4 text-center'>
+                <Loader2 className='animate-spin '/>
+              </div>
             )
           )}
           {activeTab === 'suppliers' && (

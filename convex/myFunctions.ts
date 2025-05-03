@@ -4,8 +4,6 @@ import { api } from "./_generated/api";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
 
-
-
 export const purchaseItem = query({
 
   handler: async (ctx) => {
@@ -35,6 +33,20 @@ export const addPurchaseItemInDB = mutation({
     console.log("Added new document with id:", id);
   },
 });
+
+export const getSupplierById = query({
+  args: {
+    id: v.id("supplier"),
+  },
+
+  handler: async (ctx, args) => {
+    
+    const supplier = await ctx.db.get(args.id);
+    
+    return supplier;
+  },
+})
+
 export const listSuppliers = query({
 
   handler: async (ctx) => {
@@ -77,6 +89,19 @@ export const listCategories = query({
     
   },
 });
+
+export const getCategoryById = query({
+  args: {
+    id: v.id("category"),
+  },
+
+  handler: async (ctx, args) => {
+    
+    const category = await ctx.db.get(args.id);
+    
+    return category;
+  },
+})
 
 export const addCategory = mutation({
   args: {
