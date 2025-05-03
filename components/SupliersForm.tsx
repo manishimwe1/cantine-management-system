@@ -1,27 +1,27 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { addItemSchema } from "@/lib/validation";
-import SelectCategory from "./SelectCategory";
-import { use } from "react";
-import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { addItemSchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "convex/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import SelectCategory from "./SelectCategory";
+import { useState } from "react";
 
 export function SuppliersForm() {
+  const [closeModel, setCloseModel] = useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof addItemSchema>>({
     resolver: zodResolver(addItemSchema),
@@ -33,6 +33,7 @@ export function SuppliersForm() {
       unity: "",
     },
   });
+
   const addPurchaseItemInDB = useMutation(api.myFunctions.addPurchaseItemInDB);
 
   // 2. Define a submit handler.
@@ -46,7 +47,7 @@ export function SuppliersForm() {
       unity: values.unity,
     });
     form.reset();
-    console.log(values);
+    setCloseModel(!closeModel);
   }
 
   return (

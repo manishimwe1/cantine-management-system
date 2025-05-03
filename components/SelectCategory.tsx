@@ -31,6 +31,15 @@ import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { addSupplierSchema } from "@/lib/validation";
+import AddSupplier from "./Form/AddSuplier";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const addCategorySchema = z.object({
   category: z
@@ -79,11 +88,17 @@ const SelectCategory = ({
         ) : null}
         {addBtnText === "Add Supplier" && suppliers && suppliers.length > 0 ? (
           suppliers.map((supplier) => (
-            <SelectItem key={supplier._id} value={supplier._id}>
-              <div className="flex items-center justify-between w-full overflow-hidden">
-                <p className="w-full pr-10">{supplier.companyName}</p>
-                <p className="w-full pr-10">{supplier.supplierName}</p>
-                <p className="w-full">{supplier.phone}</p>
+            <SelectItem key={supplier._id} value={supplier._id} className="w-full flex cursor-pointer overflow-hidden items-center"> 
+              <div className="flex items-center justify-around  overflow-hidden !w-full flex-1 space-y-2">
+                <div className="w-full">
+                <p className="w-full flex gap-4 pr-8"><span className="text-xs ">Company:</span>{supplier.companyName}</p>
+                </div>
+                <div className="w-full">
+                <p className="w-full flex gap-4 pr-8"><span className="text-xs ">Supplier:</span>{supplier.supplierName}</p>
+                </div>
+               <div>
+               
+               </div>
               </div>
             </SelectItem>
           ))
@@ -93,23 +108,26 @@ const SelectCategory = ({
 
         {addBtnText !== "Add Unity" && (
           <div className="w-full flex items-center justify-center">
-            <Popover
-              open={openPopover}
-              onOpenChange={() => setopenPopover(!openPopover)}
-            >
-              <PopoverTrigger className="w-full">
-                <div className="cursor-pointer hover:bg-indigo-200 text-indigo-950 font-semibold rounded-md px-2 py-1 flex items-center justify-center bg-indigo-50">
+            <Dialog>
+              <DialogTrigger className="w-full mt-5"> 
+                <div className="cursor-pointer hover:bg-indigo-200 text-indigo-950 font-semibold rounded-md px-2 py-1 flex items-center justify-center bg-indigo-50 w-full ">
                   {addBtnText}
                 </div>
-              </PopoverTrigger>
-              <PopoverContent>
-                {addBtnText === "Add Category" ? (
-                  <AddCategory setOpenPopover={setopenPopover} />
-                ) : (
-                  <AddSupplier setOpenPopover={setopenPopover} />
-                )}
-              </PopoverContent>
-            </Popover>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle></DialogTitle>
+                  {addBtnText === "Add Category" ? (
+                      <AddCategory setOpenPopover={setopenPopover} />
+                    ) : (
+                      <AddSupplier setOpenPopover={setopenPopover} openPopover={openPopover} />
+                    )}
+                  <DialogDescription>
+                    
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
 
@@ -194,142 +212,6 @@ const AddCategory = ({
         <Button
           type="button"
           onClick={addCategories}
-          className="w-full cursor-pointer"
-        >
-          Add
-        </Button>
-      </div>
-    </Form>
-  );
-};
-
-const AddSupplier = ({
-  setOpenPopover,
-}: {
-  setOpenPopover: Dispatch<SetStateAction<boolean>>;
-}) => {
-  const addSupliers = useMutation(api.myFunctions.addSupplier);
-  const suppliers = useQuery(api.myFunctions.listSuppliers);
-
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof addSupplierSchema>>({
-    resolver: zodResolver(addSupplierSchema),
-    defaultValues: {
-      companyName: "",
-      itemSuplied: "",
-      phone: 0,
-      supplierName: "",
-    },
-  });
-
-  // 2. Define a manual validation and submit handler
-  async function addSupliersInDb() {
-    // Manually trigger validation for all fields
-    const isValid = await form.trigger();
-
-    if (!isValid) {
-      return; // Stop if validation fails
-    }
-
-    const values = form.getValues();
-
-    // Check if supplier with same name already exists
-    if (
-      suppliers &&
-      suppliers.some(
-        (sup) =>
-          sup.supplierName.toLowerCase() ===
-          values.supplierName.trim().toLowerCase(),
-      )
-    ) {
-      form.setError("supplierName", {
-        type: "manual",
-        message: "This supplier already exists",
-      });
-      return;
-    }
-
-    try {
-      await addSupliers({
-        companyName: values.companyName.trim(),
-        itemSuplied: values.itemSuplied.trim(),
-        phone: Number(values.phone),
-        supplierName: values.supplierName.trim(),
-      });
-      form.reset();
-      setOpenPopover(false);
-    } catch (error) {
-      console.error("Failed to add supplier:", error);
-    }
-  }
-
-  return (
-    <Form {...form}>
-      <div className="space-y-8">
-        <FormField
-          control={form.control}
-          name="supplierName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Company Name</FormLabel>
-              <FormControl>
-                <Input placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="companyName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Supplier Person</FormLabel>
-              <FormControl>
-                <Input placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder=""
-                  {...field}
-                  onChange={(e) =>
-                    field.onChange(
-                      e.target.value === "" ? 0 : Number(e.target.value),
-                    )
-                  }
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="itemSuplied"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Item Supplied</FormLabel>
-              <FormControl>
-                <Input placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          type="button"
-          onClick={addSupliersInDb}
           className="w-full cursor-pointer"
         >
           Add
