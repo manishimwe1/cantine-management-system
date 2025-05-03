@@ -9,7 +9,7 @@ type Column = {
 
 type DataTableProps = {
   columns: Column[];
-  data: any[];
+  data: TData[];
   title?: string;
   searchPlaceholder?: string;
 };

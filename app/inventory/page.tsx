@@ -10,10 +10,15 @@ import {
   PackageOpen
 } from 'lucide-react';
 import StatisticCard from '@/components/StatisticCard';
-import DataTable from '@/components/DataTable';
 import AddISupplies from '@/components/AddISupplies';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { columns } from './columns';
+// import DataTable from '@/components/DataTable';
+import { DataTable } from './data-table';
 
 // Sample inventory data
+
 const inventoryData = [
   { id: 1, name: 'Rice', category: 'Grains', quantity: 50, unit: 'kg', status: 'In Stock', lastUpdated: '2023-07-01' },
   { id: 2, name: 'Tomatoes', category: 'Vegetables', quantity: 15, unit: 'kg', status: 'Low Stock', lastUpdated: '2023-07-02' },
@@ -33,7 +38,7 @@ const supplierData = [
 
 const InventoryManagement = () => {
   const [activeTab, setActiveTab] = useState('items');
-
+  const purchaseItem = useQuery(api.myFunctions.purchaseItem);
   const inventoryColumns = [
     { header: 'Item Name', accessor: 'name' },
     { header: 'Category', accessor: 'category' },
@@ -160,12 +165,15 @@ const InventoryManagement = () => {
 
         <div className="p-6">
           {activeTab === 'items' && (
-            <DataTable
-              columns={inventoryColumns}
-              data={inventoryData}
-              title="Inventory Items"
-              searchPlaceholder="Search items..."
-            />
+            purchaseItem && (
+              <DataTable columns={columns} data={purchaseItem} />
+            //   <DataTable
+            //   columns={inventoryColumns}
+            //   data={purchaseItem}
+            //   title="Inventory Items"
+            //   searchPlaceholder="Search items..."
+            // />
+            )
           )}
           {activeTab === 'suppliers' && (
             <DataTable
