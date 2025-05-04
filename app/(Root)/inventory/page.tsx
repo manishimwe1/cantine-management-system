@@ -20,7 +20,8 @@ import  DataTable  from './data-table';
 import { usePurchaseItemStore } from '@/lib/store';
 import { formatted } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
-import { Doc } from '@/convex/_generated/dataModel';
+import { Doc, Id } from '@/convex/_generated/dataModel';
+import { supplierColumns } from './SupplierColumns';
 
 // Sample inventory data
 
@@ -47,13 +48,18 @@ const InventoryManagement = () => {
   const listSuppliers = useQuery(api.myFunctions.listSuppliers);
   const {setPurchaseItems,purchaseItems,setSuppliers,suppliers} = usePurchaseItemStore()
 
+  // console.log(purchaseItem);
+  
   useEffect(() => {
     if (purchaseItem) {
       setPurchaseItems(purchaseItem);
+      
     }
     if (listSuppliers) {
       setSuppliers(listSuppliers);
     }
+    
+    
   },[purchaseItem,listSuppliers])
   const inventoryColumns = [
     { header: 'Item Name', accessor: 'itemName' },
@@ -84,27 +90,8 @@ const InventoryManagement = () => {
     },
   ];
 
-  const supplierColumns: ColumnDef<Doc<'supplier'>>[] = [
-    { header: 'Supplier Name', accessorKey: 'supplierName' },
-    { header: 'Company Name', accessorKey: 'companyName' },
-    { header: 'Phone', accessorKey: 'phone' },
-    { header: 'Items Supplied', accessorKey: 'itemSuplied' },
-    { header: 'Last Delivery', accessorKey: '_id' },
-    { 
-      header: 'Actions', 
-      accessorKey: '_creationTime',
-      cell: ({row}) => (
-        <div className="flex space-x-2">
-          <button className="text-blue-600 hover:text-blue-800">
-            <Edit size={18} />
-          </button>
-          <button className="text-red-600 hover:text-red-800">
-            <Trash2 size={18} />
-          </button>
-        </div>
-      )
-    },
-  ];
+  
+  
 
   return (
     <div className="space-y-6">
@@ -133,7 +120,7 @@ const InventoryManagement = () => {
         />
         <StatisticCard
           title="Low Stock Items"
-          value={inventoryData.filter(item => item.status === 'Low Stock').length}
+          value={purchaseItems?.filter((item) => item.quantity <= 10).length}
           subtitle="Requires attention"
           className="bg-gradient-to-br from-orange-50 to-white"
         />

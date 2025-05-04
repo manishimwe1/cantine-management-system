@@ -15,6 +15,7 @@ export default defineSchema({
     companyName: v.string(),
     phone: v.number(),
     itemSuplied:v.string(),
+    lastDelivery: v.optional(v.number()),
 
   }),
   purchaseItem: defineTable({

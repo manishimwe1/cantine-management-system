@@ -7,7 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
@@ -33,19 +33,29 @@ export function SuppliersForm() {
       unity: "",
     },
   });
-
+  const currentDate = new Date();
+  const creationTime = currentDate.getTime() + currentDate.getMilliseconds() / 1000;
+  // console.log(`_creationTime: ${creationTime}`);
+  
   const addPurchaseItemInDB = useMutation(api.myFunctions.addPurchaseItemInDB);
-
+  const updateSupplierInDB = useMutation(api.myFunctions.updateSupplier);
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof addItemSchema>) {
     
-    await addPurchaseItemInDB({
-      category: values.category as Id<'category'>,
-      itemName: values.itemName,
-      suplierName: values.suplier  as Id<'supplier'>,
-      quantity: values.quantity,
-      unity: values.unity,
-    });
+    await Promise.all([
+      addPurchaseItemInDB({
+        category: values.category as Id<"category">,
+        itemName: values.itemName,
+        suplierName: values.suplier as Id<"supplier">,
+        quantity: values.quantity,
+        unity: values.unity,
+      }),
+      updateSupplierInDB({
+        id: values.suplier as Id<"supplier">,
+        lastDelivery: creationTime,
+      }),
+    ]);
+
     form.reset();
     setCloseModel(!closeModel);
   }
@@ -119,7 +129,7 @@ export function SuppliersForm() {
                 <FormLabel>Unity</FormLabel>
                 <FormControl>
                   <SelectCategory
-                  addBtnText="Add Unity"
+                    addBtnText="Add Unity"
                     value={field.value}
                     onChange={field.onChange}
                     onBlur={field.onBlur}

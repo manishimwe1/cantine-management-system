@@ -11,7 +11,7 @@ export const purchaseItem = query({
     const supplier = await ctx.db
       .query("purchaseItem")
       .order("desc")
-    
+      
     return supplier.collect()
     
   },
@@ -28,12 +28,38 @@ export const addPurchaseItemInDB = mutation({
 
   handler: async (ctx, args) => {
     
-    const id = await ctx.db.insert("purchaseItem", { category: args.category,itemName:args.itemName,quantity:args.quantity,supplierName:args.suplierName,unity:args.unity });
+    const id = await ctx.db.insert("purchaseItem", { category: args.category,itemName:args.itemName,quantity:args.quantity,supplierName:args.suplierName,unity:args.unity, });
 
     console.log("Added new document with id:", id);
   },
 });
 
+export const updateSupplier = mutation({
+  args: {
+    id: v.id("supplier"),
+    lastDelivery: v.number(),
+  },
+
+  handler: async (ctx, args) => {
+    
+    const supplier = await ctx.db.get(args.id);
+    
+    if (!supplier) {
+      throw new Error("Supplier not found");
+    }
+    // Update the supplier's properties
+    const updatedSupplier = {
+      ...supplier,
+      lastDelivery: args.lastDelivery,
+    };
+    // Save the updated supplier back to the database
+   const newSupplier =  await ctx.db.patch(args.id, updatedSupplier);
+    console.log("Updated supplier with id:", args.id);
+    // Return the updated supplier  
+
+    return newSupplier;
+  },
+})
 export const getSupplierById = query({
   args: {
     id: v.id("supplier"),
