@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
                 className="hover:bg-indigo-50 py-1 cursor-pointer"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="capitalize text-sm text-gray-700 py-2 px-4 whitespace-nowrap">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

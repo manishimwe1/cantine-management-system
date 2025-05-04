@@ -8,9 +8,9 @@ import {
   TrendingDown,
   Coffee
 } from 'lucide-react';
-import DashboardCard from '../components/DashboardCard';
-import DataTable from '../components/DataTable';
-import StatisticCard from '../components/StatisticCard';
+import DashboardCard from '../../components/DashboardCard';
+import DataTable from '../../components/DataTable';
+import StatisticCard from '../../components/StatisticCard';
 
 const Dashboard = () => {
   // Sample data for dashboard

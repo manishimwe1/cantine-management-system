@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
+import localFont from "next/font/local";
+// import { ConvexClientProvider } from "./ConvexClientProvider";
 import "./globals.css";
-import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
-import ConvexClientProvider from "@/components/ConvexClientProvider";
-import Sidebar from "@/components/Sidebar";
-import Header from "@/components/Header";
+import { ConvexClientProvider } from "./ConvexClientProvider";
+
+
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
 
 export const metadata: Metadata = {
-  title: "Canteen Management System",
-  description: "Canteen Management System",
-  icons: {
-    icon: "/convex.svg",
-  },
+  title: "Stock Management System - Simplify Inventory Control",
+  description:
+    "A modern and efficient system for managing stock and inventory with ease. Developed by emino.dev.",
 };
 
 export default function RootLayout({
@@ -19,26 +28,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const sidebarOpen = true; //:TODO
   return (
-    <ConvexAuthNextjsServerProvider>
-      <html lang="en">
-        <body className={`antialiased`}>
-          <ConvexClientProvider>
-            <div className="flex h-screen bg-gray-50">
-              <Sidebar />
-              <div
-                className={`flex-1 flex flex-col transition-all duration-300 ${sidebarOpen ? "ml-58" : "ml-20"}`}
-              >
-                <Header />
-                <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                  {children}
-                </main>
-              </div>
-            </div>
-          </ConvexClientProvider>
-        </body>
-      </html>
-    </ConvexAuthNextjsServerProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full w-full scroll-smooth  transition-all duration-200 ease-in-out  overflow-x-hidden`}
+      >
+        <ConvexClientProvider>
+          <div className="w-full  h-full ">
+            <SessionProvider>{children}</SessionProvider>
+          </div>
+          {/* <Toaster /> */}
+        </ConvexClientProvider>
+      </body>
+    </html>
   );
 }
