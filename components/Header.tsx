@@ -3,6 +3,7 @@ import { MenuIcon, BellIcon, UserIcon } from 'lucide-react';
 import { auth } from '@/auth';
 import UserButton from './userButton';
 import { User } from 'next-auth';
+import MenuToggler from './MenuToggler';
 
 const Header =async () => {
   const user = await auth()
@@ -11,12 +12,7 @@ const Header =async () => {
     <header className="bg-border-b border-gray-200 shadow-sm  pr-6">
       <div className="flex items-center justify-between w-full py-3">
         <div className="flex items-center gap-4">
-          <button
-            // onClick={toggleSidebar}
-            className="p-2 rounded-md text-gray-600 hover:bg-gray-100 focus:outline-none"
-          >
-            <MenuIcon size={24} />
-          </button>
+        <MenuToggler/>
           <h1 className="text-lg font-semibold text-gray-800 md:text-xl">
             Canteen Management System
           </h1>

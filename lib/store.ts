@@ -62,3 +62,15 @@ export const usePurchaseStore = create<PurchaseStore>((set) => ({
   setStatus: (newStatus) => set({ status: newStatus }),
 }));
 
+interface SidebarStore {
+  sidebarOpen: boolean;
+  toggleSidebar: () => void;
+}
+
+export const useSidebarStore = create<SidebarStore>((set) => ({
+  sidebarOpen: false,
+  toggleSidebar: () =>
+    set((state) => ({
+      sidebarOpen: !state.sidebarOpen,
+    })),
+}));
