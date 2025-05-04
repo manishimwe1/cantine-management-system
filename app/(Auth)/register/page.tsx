@@ -80,17 +80,18 @@ export default function SignIn() {
   }
   return (
     <section className="flex items-center justify-center w-full h-screen">
-      <div className="w-full hidden overflow-hidden bg-cover bg-center h-screen md:flex flex-col  bg-hero-bg" />
-      <div className="md:w-[70%] w-full h-screen flex items-center flex-col space-y-4 justify-center bg-slate-900 px-10 lg:px-20">
+      <div className="bg-[url('/banner.png')] bg-cover bg-center bg-no-repeat h-full w-full -z-50" />
+      <div className="bg-indigo-950/40 h-full w-12 blur-3xl -z-50"/>
+      <div className="md:w-[70%] w-full h-screen flex items-center flex-col space-y-4 justify-center bg-gradient-to-r from-transparent  via-indigo-400/40 to-indigo-700/40  px-10 lg:px-20 z-50">
         <div className="flex gap-2 flex-col">
-          <h2 className=" text-balance text-xl md:text-3xl font-bold tracking-tighter text-white">
+          <h2 className=" text-balance text-xl md:text-3xl font-bold tracking-tighter text-indigo-950">
             Create an account
           </h2>
         </div>
-        <Form {...form}>
+        <Form {...form} >
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 w-full"
+            className="space-y-8 w-full "
           >
             {/* <form
           action={async (formData: FormData) => {
@@ -98,7 +99,7 @@ export default function SignIn() {
           }} */}
             {/* className="space-y-8 py-5 rounded-md " */}
             {/* > */}
-            <div className="flex items-center justify-center gap-2 lg:gap-8 text-white w-full">
+            <div className="flex items-center justify-center gap-2 lg:gap-8 text-indigo-950  w-full">
               <div className="flex items-start flex-col justify-center gap-2 w-full">
                 <FormField
                   control={form.control}
@@ -108,7 +109,7 @@ export default function SignIn() {
                       <FormLabel>First Name</FormLabel>
                       <FormControl className="w-full">
                         <Input
-                          className="text-white !w-full"
+                          className="text-indigo-950 border-indigo-950 border-2 !w-full"
                           type="text"
                           placeholder="first name.."
                           {...field}
@@ -128,7 +129,7 @@ export default function SignIn() {
                       <FormLabel>Last Name</FormLabel>
                       <FormControl className="w-full">
                         <Input
-                          className="text-white !w-full"
+                          className="text-indigo-95 border-indigo-950 border-2  !w-full"
                           type="text"
                           placeholder="last name"
                           {...field}
@@ -145,10 +146,10 @@ export default function SignIn() {
               name="email"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel className="text-white">Email</FormLabel>
+                  <FormLabel className="text-indigo-950 ">Email</FormLabel>
                   <FormControl>
                     <Input
-                      className="text-white"
+                      className="text-indigo-950 border-indigo-950 border-2"
                       type="email"
                       placeholder="john@gmail.com"
                       {...field}
@@ -163,9 +164,9 @@ export default function SignIn() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white">Password</FormLabel>
+                  <FormLabel className="text-indigo-950 ">Password</FormLabel>
                   <FormControl>
-                    <Input className="text-white" type="password" {...field} />
+                    <Input className="text-indigo-950 border-indigo-950 border-2" type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -173,7 +174,7 @@ export default function SignIn() {
             />
             <Button
               disabled={loading}
-              className="w-full bg-blue-600 disabled:bg-stone-700 disabled:cursor-wait hover:bg-blue-700 shadow-lg shadow-black"
+              className="w-full bg-indigo-600 disabled:bg-stone-700 disabled:cursor-wait hover:bg-indigo-700 shadow-lg shadow-black"
               type="submit"
             >
               {loading ? (
@@ -195,7 +196,7 @@ export default function SignIn() {
                 </Link>
               </p>
             ) : (
-              <p className="flex items-end gap-1 justify-end text-white font-thin text-sm">
+              <p className="flex items-end gap-1 justify-end text-indigo-950  font-thin text-sm">
                 Already have an account{" "}
                 <Link href="/login" className="underline ml-2 cursor-pointer">
                   Login

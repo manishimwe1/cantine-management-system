@@ -75,10 +75,11 @@ export default function LoginPage() {
 
   return (
     <section className="flex items-center justify-between w-full h-screen">
-      <div className="md:w-1/2 w-full hidden lg:flex overflow-hidden bg-cover bg-center h-full bg-hero-bg " />
-      <div className="w-full md:w-[50%]  flex items-center flex-col h-full space-y-4 justify-center bg-slate-900 px-10 lg:px-20">
+      <div className="bg-[url('/banner.png')] bg-cover bg-center bg-no-repeat h-full w-full -z-50" />
+      <div className="bg-indigo-950/40 h-full w-12 blur-3xl -z-50"/>
+      <div className="md:w-[70%] w-full h-screen flex items-center flex-col space-y-4 justify-center bg-gradient-to-r from-transparent  via-indigo-400/40 to-indigo-700/40  px-10 lg:px-20 z-50">
         <div className="flex gap-2 flex-col">
-          <h2 className="text-balance text-xl md:text-3xl font-bold tracking-tighter text-white">
+          <h2 className="text-balance text-xl md:text-3xl font-bold tracking-tighter text-indigo-950 ">
             Welcome back
           </h2>
         </div>
@@ -93,10 +94,10 @@ export default function LoginPage() {
               name="email"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel className="text-white">Email</FormLabel>
+                  <FormLabel className="text-indigo-950">Email</FormLabel>
                   <FormControl>
                     <Input
-                      className="text-white"
+                      className="text-indigo-950 border-indigo-950 border-2"
                       type="email"
                       placeholder="john@gmail.com"
                       autoComplete="email"
@@ -113,10 +114,10 @@ export default function LoginPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white">Password</FormLabel>
+                  <FormLabel className="text-indigo-950">Password</FormLabel>
                   <FormControl>
                     <Input
-                      className="text-white"
+                      className="text-indigo-950 border-indigo-950 border-2"
                       type="password"
                       autoComplete="current-password"
                       {...field}
@@ -133,7 +134,7 @@ export default function LoginPage() {
 
             <Button
               disabled={loading}
-              className="w-full bg-blue-600 disabled:bg-stone-700 disabled:cursor-wait hover:bg-blue-700 shadow-lg shadow-black"
+              className="w-full bg-indigo-600 disabled:bg-stone-700 disabled:cursor-wait hover:bg-indigo-700 shadow-lg shadow-black"
               type="submit"
             >
               {loading ? (
@@ -146,7 +147,7 @@ export default function LoginPage() {
               )}
             </Button>
 
-            <p className="flex items-end gap-1 justify-end text-white font-thin text-sm">
+            <p className="flex items-end gap-1 justify-end text-indigo-950  font-thin text-sm">
               Dont have an account?{" "}
               <Link
                 href="/register"

@@ -7,7 +7,7 @@ const SignInButton = () => {
   return (
     <div>
       <form action={handleSignInWithGoogle}>
-        <Button variant={"secondary"} type="submit">
+        <Button variant={"secondary"} type="submit" className="cursor-pointer w-full">
           <Image
             src={"/google.svg"}
             className="size-4"
