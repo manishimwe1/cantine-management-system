@@ -2,6 +2,8 @@ import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import type { Metadata } from "next";
 import "../globals.css";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Canteen Management System",
@@ -11,12 +13,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const sidebarOpen = true; //:TODO
+  const user = await auth();
+  if (!user?.user) {
+    return redirect("/login");
+  }
   return (
       
             <main className="flex h-screen bg-gray-50">

@@ -1,13 +1,15 @@
 import React from 'react';
 import { MenuIcon, BellIcon, UserIcon } from 'lucide-react';
 import { auth } from '@/auth';
+import UserButton from './userButton';
+import { User } from 'next-auth';
 
 const Header =async () => {
   const user = await auth()
   
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm">
-      <div className="flex items-center justify-between px-4 py-3">
+    <header className="bg-border-b border-gray-200 shadow-sm  pr-6">
+      <div className="flex items-center justify-between w-full py-3">
         <div className="flex items-center gap-4">
           <button
             // onClick={toggleSidebar}
@@ -25,8 +27,8 @@ const Header =async () => {
           </button>
           <div className="flex items-center gap-2">
             <span className="hidden md:block text-sm font-medium">{user?.user.name }</span>
-            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white cursor-pointer">
-              {user?.user.image ? (
+            <div className="w-8 h-8 rounded-full  flex items-center justify-center text-white cursor-pointer">
+              {/* {user?.user.image ? (
                 <img
                   src={user?.user.image}
                   alt="User Avatar"
@@ -37,7 +39,8 @@ const Header =async () => {
                   {user?.user?.name?.charAt(0).toUpperCase()}
                 </span>
               )}
-              
+               */}
+               <UserButton user={user?.user as User}/>
             </div>
           </div>
         </div>

@@ -1,9 +1,25 @@
 import { v } from "convex/values";
 import { query, mutation, action } from "./_generated/server";
 import { api } from "./_generated/api";
+import { paginationOptsValidator } from "convex/server";
 
 
 
+export const purchaseItemPagination = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx,args) => {
+    
+    const supplier = await ctx.db
+      .query("purchaseItem")
+      .order("desc")
+      .paginate(args.paginationOpts);
+    return {
+      ...supplier,
+      page: supplier.page,
+    }
+    
+  },
+});
 export const purchaseItem = query({
 
   handler: async (ctx) => {

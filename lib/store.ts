@@ -19,6 +19,24 @@ interface PurchaseItemStore {
   setSuppliers: (newSuppliers: Supplier[]) => void;
 }
 
+export type PurchaseItem = {
+  _id: Id<"purchaseItem">;
+  _creationTime: number;
+  category: Id<"category">;
+  supplierName: Id<"supplier">;
+  itemName: string;
+  quantity: number;
+  unity: string;
+};
+
+type PurchaseStore = {
+  items: Doc<'purchaseItem'>[];
+  status: "LoadingFirstPage" | "Exhausted" | "LoadingMore" | "LoadedAll" | "CanLoadMore"; // adjust to fit actual types
+  setItems: (newItems: PurchaseItem[]) => void;
+  addItems: (moreItems: PurchaseItem[]) => void;
+  setStatus: (newStatus: PurchaseStore["status"]) => void;
+};
+
 export const usePurchaseItemStore = create<PurchaseItemStore>((set,get) => ({
   purchaseItems: null,
   setPurchaseItems: (items) => set({ purchaseItems: items }),
@@ -33,5 +51,14 @@ export const usePurchaseItemStore = create<PurchaseItemStore>((set,get) => ({
   suppliers: [],
   setSuppliers: (newSuppliers) => set({ suppliers: newSuppliers })
     
+}));
+
+export const usePurchaseStore = create<PurchaseStore>((set) => ({
+  items: [],
+  status: "LoadingFirstPage",
+  setItems: (newItems) => set({ items: newItems }),
+  addItems: (moreItems) =>
+    set((state) => ({ items: [...state.items, ...moreItems] })),
+  setStatus: (newStatus) => set({ status: newStatus }),
 }));
 
