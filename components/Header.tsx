@@ -1,8 +1,10 @@
 import React from 'react';
 import { MenuIcon, BellIcon, UserIcon } from 'lucide-react';
+import { auth } from '@/auth';
 
-const Header = () => {
-
+const Header =async () => {
+  const user = await auth()
+  
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm">
       <div className="flex items-center justify-between px-4 py-3">
@@ -22,9 +24,20 @@ const Header = () => {
             <BellIcon size={24} />
           </button>
           <div className="flex items-center gap-2">
-            <span className="hidden md:block text-sm font-medium">Manzi</span>
-            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white">
-              <UserIcon size={18} />
+            <span className="hidden md:block text-sm font-medium">{user?.user.name }</span>
+            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white cursor-pointer">
+              {user?.user.image ? (
+                <img
+                  src={user?.user.image}
+                  alt="User Avatar"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <span className="text-sm font-medium text-white">
+                  {user?.user?.name?.charAt(0).toUpperCase()}
+                </span>
+              )}
+              
             </div>
           </div>
         </div>

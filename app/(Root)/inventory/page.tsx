@@ -16,8 +16,11 @@ import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { columns } from './columns';
 // import DataTable from '@/components/DataTable';
-import { DataTable } from './data-table';
+import  DataTable  from './data-table';
 import { usePurchaseItemStore } from '@/lib/store';
+import { formatted } from '@/lib/utils';
+import { ColumnDef } from '@tanstack/react-table';
+import { Doc } from '@/convex/_generated/dataModel';
 
 // Sample inventory data
 
@@ -41,24 +44,30 @@ const supplierData = [
 const InventoryManagement = () => {
   const [activeTab, setActiveTab] = useState('items');
   const purchaseItem = useQuery(api.myFunctions.purchaseItem);
-  const {setPurchaseItems,purchaseItems} = usePurchaseItemStore()
+  const listSuppliers = useQuery(api.myFunctions.listSuppliers);
+  const {setPurchaseItems,purchaseItems,setSuppliers,suppliers} = usePurchaseItemStore()
 
   useEffect(() => {
     if (purchaseItem) {
       setPurchaseItems(purchaseItem);
     }
-  },[purchaseItem])
+    if (listSuppliers) {
+      setSuppliers(listSuppliers);
+    }
+  },[purchaseItem,listSuppliers])
   const inventoryColumns = [
-    { header: 'Item Name', accessor: 'name' },
+    { header: 'Item Name', accessor: 'itemName' },
     { header: 'Category', accessor: 'category' },
     { header: 'Quantity', accessor: 'quantity' },
-    { header: 'Unit', accessor: 'unit' },
+    { header: 'Unit', accessor: 'unity', },
     { 
       header: 'Status', 
       accessor: 'status',
       className: (value: string) => value === 'In Stock' ? 'text-green-600' : 'text-orange-600'
     },
-    { header: 'Last Updated', accessor: 'lastUpdated' },
+    { header: 'Last Updated', accessor: '_creationTime' ,render: (value: number) => { 
+      return <p>{formatted(value)}</p>
+    }},
     { 
       header: 'Actions', 
       accessor: 'actions',
@@ -75,16 +84,16 @@ const InventoryManagement = () => {
     },
   ];
 
-  const supplierColumns = [
-    { header: 'Supplier Name', accessor: 'name' },
-    { header: 'Contact Person', accessor: 'contact' },
-    { header: 'Phone', accessor: 'phone' },
-    { header: 'Items Supplied', accessor: 'items' },
-    { header: 'Last Delivery', accessor: 'lastDelivery' },
+  const supplierColumns: ColumnDef<Doc<'supplier'>>[] = [
+    { header: 'Supplier Name', accessorKey: 'supplierName' },
+    { header: 'Company Name', accessorKey: 'companyName' },
+    { header: 'Phone', accessorKey: 'phone' },
+    { header: 'Items Supplied', accessorKey: 'itemSuplied' },
+    { header: 'Last Delivery', accessorKey: '_id' },
     { 
       header: 'Actions', 
-      accessor: 'actions',
-      render: () => (
+      accessorKey: '_creationTime',
+      cell: ({row}) => (
         <div className="flex space-x-2">
           <button className="text-blue-600 hover:text-blue-800">
             <Edit size={18} />
@@ -130,7 +139,7 @@ const InventoryManagement = () => {
         />
         <StatisticCard
           title="Total Suppliers"
-          value={supplierData.length}
+          value={suppliers.length}
           subtitle="Active suppliers"
           className="bg-gradient-to-br from-emerald-50 to-white"
         />
@@ -141,19 +150,19 @@ const InventoryManagement = () => {
           <nav className="flex">
             <button
               onClick={() => setActiveTab('items')}
-              className={`px-6 py-4 text-sm font-medium ${
+              className={`px-6 py-4 text-sm font-medium cursor-pointer ${
                 activeTab === 'items'
                   ? 'text-indigo-600 border-b-2 border-indigo-600'
-                  : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'text-gray-500 hover:text-gray-700 hover:border-gray-300 '
               }`}
             >
               Inventory Items
             </button>
             <button
               onClick={() => setActiveTab('suppliers')}
-              className={`px-6 py-4 text-sm font-medium ${
+              className={`px-6 py-4 text-sm font-medium cursor-pointer ${
                 activeTab === 'suppliers'
-                  ? 'text-indigo-600 border-b-2 border-indigo-600'
+                  ? 'text-indigo-600 border-b-2 border-indigo-600 '
                   : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -161,7 +170,7 @@ const InventoryManagement = () => {
             </button>
             <button
               onClick={() => setActiveTab('stock-levels')}
-              className={`px-6 py-4 text-sm font-medium ${
+              className={`px-6 py-4 text-sm font-medium cursor-pointer ${
                 activeTab === 'stock-levels'
                   ? 'text-indigo-600 border-b-2 border-indigo-600'
                   : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -175,7 +184,7 @@ const InventoryManagement = () => {
         <div className="p-6">
           {activeTab === 'items' && (
             purchaseItems ? (
-              <DataTable columns={columns} data={purchaseItems} />
+              <DataTable title='Invetory list' columns={columns} data={purchaseItems} searchPlaceholder='Search inventory...' />
            
             ):(
               <div className='p-4 text-center'>
@@ -186,7 +195,7 @@ const InventoryManagement = () => {
           {activeTab === 'suppliers' && (
             <DataTable
               columns={supplierColumns}
-              data={supplierData}
+              data={suppliers}
               title="Suppliers"
               searchPlaceholder="Search suppliers..."
             />

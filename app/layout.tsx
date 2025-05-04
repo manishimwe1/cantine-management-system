@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
 // import { ConvexClientProvider } from "./ConvexClientProvider";
-import "./globals.css";
+import NextTopLoader from 'nextjs-toploader';
 import { ConvexClientProvider } from "./ConvexClientProvider";
-
+import "./globals.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,7 +35,9 @@ export default function RootLayout({
       >
         <ConvexClientProvider>
           <div className="w-full  h-full ">
-            <SessionProvider>{children}</SessionProvider>
+            <SessionProvider>
+            <NextTopLoader />
+              {children}</SessionProvider>
           </div>
           {/* <Toaster /> */}
         </ConvexClientProvider>

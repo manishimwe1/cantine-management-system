@@ -1,12 +1,22 @@
 // store/purchaseItemStore.ts
 import { create } from "zustand";
-import { Doc } from "@/convex/_generated/dataModel";
+import { Doc, Id } from "@/convex/_generated/dataModel";
+export type Supplier = {
+  _id: Id<"supplier">;
+  _creationTime: number;
+  supplierName: string;
+  companyName: string;
+  phone: number;
+  itemSuplied: string;
+};
 
 interface PurchaseItemStore {
   purchaseItems: Doc<"purchaseItem">[] | null;
   setPurchaseItems: (items: Doc<"purchaseItem">[]) => void;
   category:string[],
   setCategory: (newCategories: string[]) => void;
+  suppliers: Supplier[];
+  setSuppliers: (newSuppliers: Supplier[]) => void;
 }
 
 export const usePurchaseItemStore = create<PurchaseItemStore>((set,get) => ({
@@ -19,5 +29,9 @@ export const usePurchaseItemStore = create<PurchaseItemStore>((set,get) => ({
         ...new Set([...state.category, ...newCategories]), // no duplicates
       ],
     })),
+
+  suppliers: [],
+  setSuppliers: (newSuppliers) => set({ suppliers: newSuppliers })
+    
 }));
 

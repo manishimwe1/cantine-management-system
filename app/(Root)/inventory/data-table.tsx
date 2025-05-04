@@ -20,11 +20,14 @@ import { Search } from "lucide-react"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  title: string
+  searchPlaceholder?: string
 }
 
-export function DataTable<TData, TValue>({
+export default function DataTable<TData, TValue>({
   columns,
   data,
+  title,searchPlaceholder
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -36,7 +39,7 @@ export function DataTable<TData, TValue>({
     <div className="rounded-md border">
         <div className="p-4 border-b border-gray-200">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                  {/* <h2 className="text-lg font-semibold text-gray-800 mb-2 md:mb-0">{title}</h2> */}
+                  <h2 className="text-lg font-semibold text-gray-800 mb-2 md:mb-0">{title}</h2>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Search size={18} className="text-gray-400" />
@@ -44,7 +47,7 @@ export function DataTable<TData, TValue>({
                     <input
                       type="text"
                       className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                      placeholder='Search...'
+                      placeholder={searchPlaceholder || "Search..."}
                     />
                   </div>
                 </div>
@@ -77,7 +80,7 @@ export function DataTable<TData, TValue>({
                 className="hover:bg-indigo-50 py-1 cursor-pointer"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="capitalize text-sm text-gray-700 py-2 px-4 whitespace-nowrap">
+                  <TableCell key={cell.id} className="capitalize">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
