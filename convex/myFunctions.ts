@@ -3,12 +3,9 @@ import { query, mutation, action } from "./_generated/server";
 import { api } from "./_generated/api";
 import { paginationOptsValidator } from "convex/server";
 
-
-
 export const purchaseItemPagination = query({
   args: { paginationOpts: paginationOptsValidator },
-  handler: async (ctx,args) => {
-    
+  handler: async (ctx, args) => {
     const supplier = await ctx.db
       .query("purchaseItem")
       .order("desc")
@@ -16,35 +13,40 @@ export const purchaseItemPagination = query({
     return {
       ...supplier,
       page: supplier.page,
-    }
-    
+    };
   },
 });
 export const purchaseItem = query({
-
   handler: async (ctx) => {
-    
-    const supplier = await ctx.db
-      .query("purchaseItem")
-      .order("desc")
-      
-    return supplier.collect()
-    
+    const supplier = await ctx.db.query("purchaseItem").order("desc").collect();
+
+    return supplier;
   },
 });
 
 export const addPurchaseItemInDB = mutation({
   args: {
-    category: v.id('category'),
+    category: v.id("category"),
     itemName: v.string(),
-    suplierName: v.id('supplier'),
+    suplierName: v.id("supplier"),
     quantity: v.number(),
     unity: v.string(),
+    unityPrice: v.number(),
+    status: v.string(),
+    totalPrice: v.number(),
   },
 
   handler: async (ctx, args) => {
-    
-    const id = await ctx.db.insert("purchaseItem", { category: args.category,itemName:args.itemName,quantity:args.quantity,supplierName:args.suplierName,unity:args.unity, });
+    const id = await ctx.db.insert("purchaseItem", {
+      category: args.category,
+      itemName: args.itemName,
+      quantity: args.quantity,
+      supplierName: args.suplierName,
+      unity: args.unity,
+      unityPrice: args.unityPrice,
+      status: args.status,
+      totalPrice: args.totalPrice,
+    });
 
     console.log("Added new document with id:", id);
   },
@@ -57,9 +59,8 @@ export const updateSupplier = mutation({
   },
 
   handler: async (ctx, args) => {
-    
     const supplier = await ctx.db.get(args.id);
-    
+
     if (!supplier) {
       throw new Error("Supplier not found");
     }
@@ -69,36 +70,30 @@ export const updateSupplier = mutation({
       lastDelivery: args.lastDelivery,
     };
     // Save the updated supplier back to the database
-   const newSupplier =  await ctx.db.patch(args.id, updatedSupplier);
+    const newSupplier = await ctx.db.patch(args.id, updatedSupplier);
     console.log("Updated supplier with id:", args.id);
-    // Return the updated supplier  
+    // Return the updated supplier
 
     return newSupplier;
   },
-})
+});
 export const getSupplierById = query({
   args: {
     id: v.id("supplier"),
   },
 
   handler: async (ctx, args) => {
-    
     const supplier = await ctx.db.get(args.id);
-    
+
     return supplier;
   },
-})
+});
 
 export const listSuppliers = query({
-
   handler: async (ctx) => {
-    
-    const supplier = await ctx.db
-      .query("supplier")
-      .order("desc")
-    
-    return supplier.collect()
-    
+    const supplier = await ctx.db.query("supplier").order("desc");
+
+    return supplier.collect();
   },
 });
 
@@ -111,24 +106,22 @@ export const addSupplier = mutation({
   },
 
   handler: async (ctx, args) => {
-    
-    const id = await ctx.db.insert("supplier", { supplierName: args.supplierName,companyName:args.companyName,phone:args.phone,itemSuplied:args.itemSuplied });
+    const id = await ctx.db.insert("supplier", {
+      supplierName: args.supplierName,
+      companyName: args.companyName,
+      phone: args.phone,
+      itemSuplied: args.itemSuplied,
+    });
 
     console.log("Added new document with id:", id);
   },
 });
 
-
 export const listCategories = query({
-
   handler: async (ctx) => {
-    
-    const category = await ctx.db
-      .query("category")
-      .order("desc")
-    
-    return category.collect()
-    
+    const category = await ctx.db.query("category").order("desc");
+
+    return category.collect();
   },
 });
 
@@ -138,12 +131,11 @@ export const getCategoryById = query({
   },
 
   handler: async (ctx, args) => {
-    
     const category = await ctx.db.get(args.id);
-    
+
     return category;
   },
-})
+});
 
 export const addCategory = mutation({
   args: {
@@ -151,8 +143,6 @@ export const addCategory = mutation({
   },
 
   handler: async (ctx, args) => {
-    
-
     const id = await ctx.db.insert("category", { category: args.category });
 
     console.log("Added new document with id:", id);

@@ -6,7 +6,7 @@ import { usePurchaseItemStore } from "@/lib/store";
 import { formatted } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useQuery } from "convex/react";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, MoreVertical, Trash2 } from "lucide-react";
 
 
 export const ShowLastDelivery = ({ supplierId }: { supplierId: Id<"supplier"> }) => {
@@ -47,6 +47,18 @@ export const columns: ColumnDef<Doc<"purchaseItem">>[] = [
   {
     accessorKey: "itemName",
     header: "Item Name",
+    cell: ({ row }) => {
+      const itemName = row.getValue("itemName") as string;
+      return <p className="uppercase">{itemName}</p>;
+    },
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => {
+      const category = row.getValue("category") as Id<"category">;
+      return <ShowCategory categoryId={category} />;
+    },
   },
   {
     accessorKey: "supplierName",
@@ -60,17 +72,18 @@ export const columns: ColumnDef<Doc<"purchaseItem">>[] = [
     accessorKey: "quantity",
     header: "Amount",
   },
-  {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => {
-      const category = row.getValue("category") as Id<"category">;
-      return <ShowCategory categoryId={category} />;
-    },
-  },
+  
   {
     accessorKey: "unity",
-    header: "UnIty",
+    header: "Unity",
+  },
+  {
+    accessorKey: "unityPrice",
+    header: "Unity/Price",
+  },
+  {
+    accessorKey: "totalPrice",
+    header: "Total Price",
   },
   {
     accessorKey: "status",
@@ -98,13 +111,14 @@ export const columns: ColumnDef<Doc<"purchaseItem">>[] = [
     header: "Actions",
     accessorKey: "_id",
     cell: ({ row }) => (
-      <div className="flex space-x-2">
-        <button className="text-blue-600 hover:text-blue-800">
+      <div className="flex space-x-2 justify-end">
+        {/* <button className="text-blue-600 hover:text-blue-800">
           <Edit2 size={18} />
         </button>
         <button className="text-red-600 hover:text-red-800">
           <Trash2 size={18} />
-        </button>
+        </button> */}
+        <MoreVertical className=""/>
       </div>
     ),
   },

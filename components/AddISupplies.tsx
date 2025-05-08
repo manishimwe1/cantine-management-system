@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import { Plus } from "lucide-react";
-import { SuppliersForm } from "./SupliersForm";
+import { SuppliersForm } from "./Form/SupliersForm";
 
 const AddISupplies = () => {
   return (
@@ -26,7 +26,7 @@ const AddISupplies = () => {
           Add New Item
         </div>
       </DialogTrigger>
-      <DialogContent className="bg-indigo-50">
+      <DialogContent className="bg-indigo-50 overflow-y-scroll max-h-[95vh]">
         <DialogHeader>
           <DialogTitle></DialogTitle>
           <SuppliersForm />

@@ -16,6 +16,9 @@ export const addItemSchema = z.object({
   suplier: z.string().min(2, {
     message: "category must be at least 2 characters.",
   }),
+  
+  totalPrice: z.coerce.number(),
+  unityPrice: z.coerce.number().min(1),
 
 });
 

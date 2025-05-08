@@ -24,7 +24,9 @@ export default defineSchema({
     supplierName: v.id('supplier'),
     quantity: v.number(),
     unity: v.string(),
-    
+    unityPrice: v.number(),
+    status: v.string(),
+    totalPrice: v.number(),
 
   }),
   user: defineTable({

@@ -133,8 +133,11 @@ const SelectCategory = ({
 
         {addBtnText === "Add Unity" && (
           <>
-            <SelectItem value="kg">Kg</SelectItem>
-            <SelectItem value="litre">Litre</SelectItem>
+            <SelectItem value="kg" className="uppercase">Kgs</SelectItem>
+            <SelectItem value="litre" className="uppercase">Litre</SelectItem>
+            <SelectItem value="bdles" className="uppercase">bdles</SelectItem>
+            <SelectItem value="pcs" className="uppercase">pcs</SelectItem>
+            <SelectItem value="carton" className="uppercase">carton</SelectItem>
           </>
         )}
       </SelectContent>

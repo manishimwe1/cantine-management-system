@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "convex/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import SelectCategory from "./SelectCategory";
+import SelectCategory from "../SelectCategory";
 import { useState } from "react";
 
 export function SuppliersForm() {
@@ -31,16 +31,23 @@ export function SuppliersForm() {
       quantity: 0,
       suplier: "",
       unity: "",
+      totalPrice: 0,
+      unityPrice: 0,
     },
   });
   const currentDate = new Date();
-  const creationTime = currentDate.getTime() + currentDate.getMilliseconds() / 1000;
+  const creationTime =
+    currentDate.getTime() + currentDate.getMilliseconds() / 1000;
   // console.log(`_creationTime: ${creationTime}`);
-  
+
   const addPurchaseItemInDB = useMutation(api.myFunctions.addPurchaseItemInDB);
   const updateSupplierInDB = useMutation(api.myFunctions.updateSupplier);
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof addItemSchema>) {
+    const status = values.quantity > 10 ? "in-stock" : "low-stock";
+    console.log('here');
+    
+    console.log("values", values,status);
     
     await Promise.all([
       addPurchaseItemInDB({
@@ -49,6 +56,9 @@ export function SuppliersForm() {
         suplierName: values.suplier as Id<"supplier">,
         quantity: values.quantity,
         unity: values.unity,
+        unityPrice: values.unityPrice,
+        status: status,
+        totalPrice: values.totalPrice,
       }),
       updateSupplierInDB({
         id: values.suplier as Id<"supplier">,
@@ -141,6 +151,52 @@ export function SuppliersForm() {
             )}
           />
         </div>
+        <div className="flex gap-4 w-full ">
+          <FormField
+            control={form.control}
+            name="unityPrice"
+            render={({ field }) => (
+              <FormItem className="w-full ">
+                <FormLabel>Unity Price</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Shyiramo uko uranguye"
+                    {...field}
+                    onBlur={()=>{
+                      form.setValue("totalPrice", form.watch("quantity") * form.watch("unityPrice"));
+                      
+                    }}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="totalPrice"
+            render={({ field }) => (
+              <FormItem className="w-full ">
+                <FormLabel>Total Price</FormLabel>
+                <FormControl>
+                  <Input
+                    
+                    placeholder=""
+                    {...field}
+                    value={form.watch("quantity") * form.watch("unityPrice")}
+                    disabled
+                    
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div>
           <FormField
             control={form.control}
@@ -162,7 +218,9 @@ export function SuppliersForm() {
             )}
           />
         </div>
-        <Button type="submit">Submit</Button>
+        <div className="flex justify-end ">
+        <Button type="submit" className="cursor-pointer hover:bg-indigo-900">Submit</Button>
+        </div>
       </form>
     </Form>
   );
