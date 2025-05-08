@@ -64,6 +64,8 @@ const SelectCategory = ({
   name?: string;
 }) => {
   const [openPopover, setopenPopover] = useState(false);
+  const [openAddCategory, setopenAddCategory] = useState(false);
+  const [openAddSupplier, setopenAddSupplier] = useState(false);
   const categories = useQuery(api.myFunctions.listCategories);
   const suppliers = useQuery(api.myFunctions.listSuppliers);
 
@@ -72,7 +74,7 @@ const SelectCategory = ({
       <SelectTrigger className={className ? className : "w-full"}>
         <SelectValue placeholder="Select" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="w-full max-h-[300px] overflow-y-auto">
         {addBtnText === "Add Category" &&
         categories &&
         categories.length > 0 ? (
@@ -88,17 +90,22 @@ const SelectCategory = ({
         ) : null}
         {addBtnText === "Add Supplier" && suppliers && suppliers.length > 0 ? (
           suppliers.map((supplier) => (
-            <SelectItem key={supplier._id} value={supplier._id} className="w-full flex cursor-pointer overflow-hidden items-center"> 
-              <div className="flex items-center justify-around  overflow-hidden !w-full flex-1 space-y-2">
-                <div className="w-full">
-                <p className="w-full flex gap-4 pr-8"><span className="text-xs ">Company:</span>{supplier.companyName}</p>
-                </div>
-                <div className="w-full">
-                <p className="w-full flex gap-4 pr-8"><span className="text-xs ">Supplier:</span>{supplier.supplierName}</p>
-                </div>
-               <div>
-               
-               </div>
+            <SelectItem
+              key={supplier._id}
+              value={supplier._id}
+              className="w-full flex cursor-pointer items-center p-4 hover:bg-gray-100 overflow-x-hidden rounded-md"
+            >
+              <div className="flex justify-between items-center gap-4 w-full space-y-1">
+              <p className="text-sm text-gray-700">
+                <span className="font-semibold">Company:</span>{" "}
+                <span className="text-sm text-gray-500 font-normal capitalize">
+                {supplier.companyName}
+                </span>
+              </p>
+              <p className="text-sm text-gray-700">
+                <span className="font-semibold">Supplier:</span>{" "}
+                {supplier.supplierName}
+              </p>
               </div>
             </SelectItem>
           ))
@@ -108,7 +115,7 @@ const SelectCategory = ({
 
         {addBtnText !== "Add Unity" && (
           <div className="w-full flex items-center justify-center">
-            <Dialog>
+            <Dialog open={openPopover} onOpenChange={setopenPopover}>
               <DialogTrigger className="w-full mt-5"> 
                 <div className="cursor-pointer hover:bg-indigo-200 text-indigo-950 font-semibold rounded-md px-2 py-1 flex items-center justify-center bg-indigo-50 w-full ">
                   {addBtnText}
@@ -118,9 +125,9 @@ const SelectCategory = ({
                 <DialogHeader>
                   <DialogTitle></DialogTitle>
                   {addBtnText === "Add Category" ? (
-                      <AddCategory setOpenPopover={setopenPopover} />
+                      <AddCategory setOpenPopover={setopenAddCategory} />
                     ) : (
-                      <AddSupplier setOpenPopover={setopenPopover} openPopover={openPopover} />
+                      <AddSupplier setOpenPopover={setopenAddSupplier} openPopover={openAddSupplier} />
                     )}
                   <DialogDescription>
                     

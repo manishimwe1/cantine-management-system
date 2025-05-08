@@ -14,7 +14,7 @@ const Header =async () => {
         <div className="flex items-center gap-4">
         <MenuToggler/>
           <h1 className="text-lg font-semibold text-gray-800 md:text-xl">
-            Canteen Management System
+            Common vision cooperative
           </h1>
         </div>
         <div className="flex items-center gap-4">

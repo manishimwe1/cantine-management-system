@@ -1,3 +1,5 @@
+'use client";'
+
 import {
   Dialog,
   DialogContent,
@@ -15,10 +17,12 @@ import {
 
 import { Plus } from "lucide-react";
 import { SuppliersForm } from "./Form/SupliersForm";
+import { useState } from "react";
 
 const AddISupplies = () => {
+  const [openDialog, setOpenDialog] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={()=>setOpenDialog(!openDialog)}>
       <DialogTrigger>
         <div className="px-4 py-2 bg-indigo-600 text-white rounded-md flex items-center hover:bg-indigo-700 transition-colors cursor-pointer">
           
@@ -29,7 +33,7 @@ const AddISupplies = () => {
       <DialogContent className="bg-indigo-50 overflow-y-scroll max-h-[95vh]">
         <DialogHeader>
           <DialogTitle></DialogTitle>
-          <SuppliersForm />
+          <SuppliersForm setOpenDialog={setOpenDialog}/>
           <DialogDescription></DialogDescription>
         </DialogHeader>
       </DialogContent>

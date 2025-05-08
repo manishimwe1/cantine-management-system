@@ -20,8 +20,7 @@ import { z } from "zod";
 import SelectCategory from "../SelectCategory";
 import { useState } from "react";
 
-export function SuppliersForm() {
-  const [closeModel, setCloseModel] = useState(false);
+export function SuppliersForm({setOpenDialog}:{setOpenDialog: (open: boolean) => void}) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof addItemSchema>>({
     resolver: zodResolver(addItemSchema),
@@ -67,7 +66,7 @@ export function SuppliersForm() {
     ]);
 
     form.reset();
-    setCloseModel(!closeModel);
+    setOpenDialog(false)
   }
 
   return (

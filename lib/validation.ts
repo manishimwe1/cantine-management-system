@@ -23,10 +23,10 @@ export const addItemSchema = z.object({
 });
 
 export const addSupplierSchema = z.object({
-    supplierName: z.string().min(2).max(50),
-    companyName: z.string().min(2).max(50),
+    supplierName: z.string().min(2),
+    companyName: z.string().min(2),
     phone: z.coerce.number().min(3),
-    itemSuplied: z.string().min(2).max(50),
+    itemSuplied: z.string().min(2),
   });
 
   

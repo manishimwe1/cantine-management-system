@@ -25,7 +25,7 @@ const Sidebar = () => {
     >
       <div className="h-16 flex items-center justify-center border-b border-indigo-700">
         <span className={`font-bold text-2xl transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
-          {sidebarOpen ? 'CMS' : ''}
+          {sidebarOpen ? 'CVC' : ''}
         </span>
         {!sidebarOpen && <ChefHat size={24} />}
       </div>

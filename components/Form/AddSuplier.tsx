@@ -86,7 +86,7 @@ const AddSupplier = ({
         <div className="w-full flex gap-4">
           <FormField
             control={form.control}
-            name="supplierName"
+            name="companyName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Company Name</FormLabel>
@@ -99,7 +99,7 @@ const AddSupplier = ({
           />
           <FormField
             control={form.control}
-            name="companyName"
+            name="supplierName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Supplier Person</FormLabel>

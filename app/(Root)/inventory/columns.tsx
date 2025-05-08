@@ -76,25 +76,37 @@ export const columns: ColumnDef<Doc<"purchaseItem">>[] = [
   {
     accessorKey: "unity",
     header: "Unity",
+    cell:({row})=>{
+      const unity = row.getValue('unity') as string
+      return <p className="uppercase text-center">{unity}</p>
+    }
   },
   {
     accessorKey: "unityPrice",
     header: "Unity/Price",
+    cell:({row})=>{
+      const unityPrice = row.getValue('unityPrice') as number
+      return <p className=" text-center">{unityPrice.toLocaleString()} <span className="text-xs">rwf</span></p>
+    }
   },
   {
     accessorKey: "totalPrice",
     header: "Total Price",
+    cell:({row})=>{
+      const totalPrice = row.getValue('totalPrice') as number
+      return <p className=" text-center">{totalPrice.toLocaleString()} <span className="text-xs">rwf</span></p>
+    }
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("quantity") as number;
+      const status = row.getValue("status") as string;
       return (
         <p
-          className={`capitalize ${status > 10 ? "text-green-600" : "text-orange-600"}`}
+          className={`capitalize ${status === 'in-stock' ? "text-green-600" : "text-orange-600"}`}
         >
-          {status > 10 ? "In Stock" : "Low Stock"}
+          {status === 'in-stock' ? "In Stock" : "Low Stock"}
         </p>
       );
     },
