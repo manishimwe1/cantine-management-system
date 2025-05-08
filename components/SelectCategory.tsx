@@ -96,16 +96,16 @@ const SelectCategory = ({
               className="w-full flex cursor-pointer items-center p-4 hover:bg-gray-100 overflow-x-hidden rounded-md"
             >
               <div className="flex justify-between items-center gap-4 w-full space-y-1">
-              <p className="text-sm text-gray-700">
-                <span className="font-semibold">Company:</span>{" "}
-                <span className="text-sm text-gray-500 font-normal capitalize">
-                {supplier.companyName}
-                </span>
-              </p>
-              <p className="text-sm text-gray-700">
-                <span className="font-semibold">Supplier:</span>{" "}
-                {supplier.supplierName}
-              </p>
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">Company:</span>{" "}
+                  <span className="text-sm text-gray-500 font-normal capitalize">
+                    {supplier.companyName}
+                  </span>
+                </p>
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">Supplier:</span>{" "}
+                  {supplier.supplierName}
+                </p>
               </div>
             </SelectItem>
           ))
@@ -113,26 +113,27 @@ const SelectCategory = ({
           <div className="text-center py-4 text-sm">No suppliers found</div>
         ) : null}
 
-        {addBtnText !== "Add Unity" && (
+        {addBtnText !== "Add Unity" && addBtnText !== "ADD MINISTRIES" && (
           <div className="w-full flex items-center justify-center">
             <Dialog open={openPopover} onOpenChange={setopenPopover}>
-              <DialogTrigger className="w-full mt-5"> 
-                <div className="cursor-pointer hover:bg-indigo-200 text-indigo-950 font-semibold rounded-md px-2 py-1 flex items-center justify-center bg-indigo-50 w-full ">
-                  {addBtnText}
-                </div>
+              <DialogTrigger className="w-full mt-5">
+          <div className="cursor-pointer hover:bg-indigo-200 text-indigo-950 font-semibold rounded-md px-2 py-1 flex items-center justify-center bg-indigo-50 w-full ">
+            {addBtnText}
+          </div>
               </DialogTrigger>
               <DialogContent>
-                <DialogHeader>
-                  <DialogTitle></DialogTitle>
-                  {addBtnText === "Add Category" ? (
-                      <AddCategory setOpenPopover={setopenAddCategory} />
-                    ) : (
-                      <AddSupplier setOpenPopover={setopenAddSupplier} openPopover={openAddSupplier} />
-                    )}
-                  <DialogDescription>
-                    
-                  </DialogDescription>
-                </DialogHeader>
+          <DialogHeader>
+            <DialogTitle></DialogTitle>
+            {addBtnText === "Add Category" ? (
+              <AddCategory setOpenPopover={setopenPopover} />
+            ) : (
+              <AddSupplier
+                setOpenPopover={setopenPopover}
+                openPopover={openPopover}
+              />
+            )}
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
               </DialogContent>
             </Dialog>
           </div>
@@ -140,11 +141,43 @@ const SelectCategory = ({
 
         {addBtnText === "Add Unity" && (
           <>
-            <SelectItem value="kg" className="uppercase">Kgs</SelectItem>
-            <SelectItem value="litre" className="uppercase">Litre</SelectItem>
-            <SelectItem value="bdles" className="uppercase">bdles</SelectItem>
-            <SelectItem value="pcs" className="uppercase">pcs</SelectItem>
-            <SelectItem value="carton" className="uppercase">carton</SelectItem>
+            <SelectItem value="kg" className="uppercase">
+              Kgs
+            </SelectItem>
+            <SelectItem value="litre" className="uppercase">
+              Litre
+            </SelectItem>
+            <SelectItem value="bdles" className="uppercase">
+              bdles
+            </SelectItem>
+            <SelectItem value="pcs" className="uppercase">
+              pcs
+            </SelectItem>
+            <SelectItem value="carton" className="uppercase">
+              carton
+            </SelectItem>
+          </>
+        )}
+
+        {addBtnText === "ADD MINISTRIES" && (
+          <>
+            <SelectItem
+              value="minijust-ministry"
+              className="capitalize"
+            >
+              Minijust ministry
+            </SelectItem>
+            <SelectItem value="mininfra-ministry" className="capitalize">
+              Mininfra ministry
+            </SelectItem>
+            <SelectItem value="Rrlc-commission" className="capitalize">Rrlc Commission
+            </SelectItem>
+            <SelectItem value="Primature-ministry" className="capitalize">
+              Primature ministry
+            </SelectItem>
+            <SelectItem value="staff-payment" className="capitalize">
+              staff payment
+            </SelectItem>
           </>
         )}
       </SelectContent>

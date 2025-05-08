@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import DataTable from '@/components/DataTable';
 import StatisticCard from '@/components/StatisticCard';
+import { usePurchaseItemStore } from '@/lib/store';
+import AddISupplies from '@/components/AddISupplies';
 
 // Sample transactions data
 const transactionsData = [
@@ -35,6 +37,9 @@ const expenseCategoriesData = [
 ];
 
 const FinanceManagement = () => {
+  const {purchaseItems} = usePurchaseItemStore()
+  console.log(purchaseItems);
+  
   const [activeTab, setActiveTab] = useState('transactions');
 
   const transactionColumns = [
@@ -59,10 +64,7 @@ const FinanceManagement = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0">Finance Management</h1>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 bg-indigo-600 text-white rounded-md flex items-center hover:bg-indigo-700 transition-colors">
-            <Plus size={18} className="mr-2" />
-            New Transaction
-          </button>
+          <AddISupplies btnText='New Transaction'/>
           <button className="px-4 py-2 border border-gray-300 rounded-md flex items-center text-gray-700 hover:bg-gray-50 transition-colors">
             <Calendar size={18} className="mr-2" />
             Date Range
@@ -89,7 +91,7 @@ const FinanceManagement = () => {
         />
         <StatisticCard
           title="Total Expenses"
-          value="$1,420.00"
+          value={`${purchaseItems?.reduce((acc, item) => acc + item.totalPrice, 0).toLocaleString()} Rwf` }
           subtitle="This week"
           footer={
             <div className="flex items-center text-red-600">
