@@ -53,14 +53,14 @@ export const usePurchaseItemStore = create<PurchaseItemStore>((set,get) => ({
     
 }));
 
-export const usePurchaseStore = create<PurchaseStore>((set) => ({
-  items: [],
-  status: "LoadingFirstPage",
-  setItems: (newItems) => set({ items: newItems }),
-  addItems: (moreItems) =>
-    set((state) => ({ items: [...state.items, ...moreItems] })),
-  setStatus: (newStatus) => set({ status: newStatus }),
-}));
+// export const usePurchaseStore = create<PurchaseStore>((set) => ({
+//   items: [],
+//   status: "LoadingFirstPage",
+//   setItems: (newItems) => set({ items: newItems }),
+//   addItems: (moreItems) =>
+//     set((state) => ({ items: [...state.items, ...moreItems] })),
+//   setStatus: (newStatus) => set({ status: newStatus }),
+// }));
 
 interface SidebarStore {
   sidebarOpen: boolean;
@@ -73,4 +73,19 @@ export const useSidebarStore = create<SidebarStore>((set) => ({
     set((state) => ({
       sidebarOpen: !state.sidebarOpen,
     })),
+}));
+
+interface AddRequestItem {
+  id: string;
+  quantity: number;
+}
+
+interface AddRequestItemStore {
+  addRequestItem: AddRequestItem[];
+  setAddRequestItem: (newItems: AddRequestItem[]) => void;
+}
+
+export const useAddRequestItemStore = create<AddRequestItemStore>((set) => ({
+  addRequestItem: [],
+  setAddRequestItem: (newItems) => set({ addRequestItem: newItems }),
 }));
