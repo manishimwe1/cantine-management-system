@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
   title: "Canteen Management System",
@@ -30,7 +31,8 @@ export default async function RootLayout({
         className={`flex-1 flex flex-col transition-all duration-300 ${sidebarOpen ? "ml-58" : "ml-20"}`}
       >
         <Header />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">
+        <Toaster />{children}</main>
       </div>
     </main>
   );

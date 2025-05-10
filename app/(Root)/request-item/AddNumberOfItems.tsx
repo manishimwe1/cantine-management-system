@@ -49,7 +49,6 @@ const AddNumberOfItems = ({
     }
 
     setAddRequestItem(updatedItems);
-
   }
 
   return (
@@ -89,7 +88,7 @@ const AddNumberOfItems = ({
 
                       // Update the state
                       const existingItemIndex = addReqItem.findIndex(
-                        (item) => item.id === id
+                        (item) => item.id === id,
                       );
                       let updatedItems;
 
@@ -104,7 +103,10 @@ const AddNumberOfItems = ({
                       }
 
                       setAddRequestItem(updatedItems);
-                      console.log("Updated addReqItem on input change:", updatedItems);
+                      console.log(
+                        "Updated addReqItem on input change:",
+                        updatedItems,
+                      );
                     }}
                   />
                 </FormControl>

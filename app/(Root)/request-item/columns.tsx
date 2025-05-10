@@ -61,15 +61,15 @@ export const columns: ColumnDef<Doc<"purchaseItem">>[] = [
       return <ShowCategory categoryId={category} />;
     },
   },
-  {
-    accessorKey: "supplierName",
-    header: "Supplier Name",
-    cell: ({ row }) => {
-      const supplier = row.getValue("supplierName") as Id<"supplier">;
-      // return <ShowSupplier supplier={supplier} />;
-      return null
-    },
-  },
+  // {
+  //   accessorKey: "supplierName",
+  //   header: "Supplier Name",
+  //   cell: ({ row }) => {
+  //     const supplier = row.getValue("supplierName") as Id<"supplier">;
+  //     // return <ShowSupplier supplier={supplier} />;
+  //     return null
+  //   },
+  // },
   {
     accessorKey: "quantity",
     header: "Quantity",
